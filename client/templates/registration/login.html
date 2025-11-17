@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvoRate - Login</title>
+    {% include 'tracker/header.html' %}
+</head>
+<body>
+    {% include 'accounts/global_links.html' %}
+    <h1><strong>Login</strong></h1>
+
+    {% if form.errors %}
+        <div style="color: rgb(255, 0, 0); background-color: #ffebee; padding: 10px; border: 1px solid red; margin: 10px 0;">
+            <strong>Please correct the following errors:</strong>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table class='form'>
+            {{ form.as_table }}
+        </table>
+        <button type="submit" class="btn btn-secondary"><strong>Login</strong></button>
+    </form>
+</body>
+</html>

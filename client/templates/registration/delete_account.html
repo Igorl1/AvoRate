@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvoRate - Account Deletion</title>
+    {% include 'tracker/header.html' %}
+</head>
+<body>
+    {% include 'tracker/global_links.html' %}
+    
+    {% if error_message %}
+        <div style="color: red; background-color: #ffebee; padding: 15px; border: 1px solid red; margin: 20px 0; border-radius: 5px;">
+            <strong>Account Deletion Not Allowed</strong><br>
+            {{ error_message }}
+        </div>
+        <a href="{% url 'home' %}" class="btn btn-primary"><strong>Go Home</strong></a>
+    {% else %}
+        <h1><strong>Are you sure you want to delete your account?</strong></h1>
+        <p style="color: #ff6b6b; font-weight: bold;">This action cannot be undone. All your data will be permanently lost.</p>
+
+        <form method="post" action ="{% url 'delete_account' %}">
+            <fieldset style="width: max-content;">
+                {% csrf_token %}
+                <a href="{% url 'home' %}" class="btn btn-secondary"><strong>Cancel</strong></a>
+                <span style="margin-left: 50px;"></span>
+                <button type="submit" class="btn btn-danger"><strong>Delete Account</strong></button>
+            </fieldset>
+        </form>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvoRate - Logout</title>
+    {% include 'tracker/header.html' %}
+</head>
+<body>
+    {% include 'tracker/global_links.html' %}
+    <h1><strong>Are you sure you want to log out?</strong></h1>
+    <form method="post" action ="{% url 'logout' %}">
+        <fieldset style="width: max-content;">
+            {% csrf_token %}
+            <a href="{% url 'home' %}" class="btn btn-secondary"><strong>Cancel</strong></a>
+            <span style="margin-left: 50px;"></span>
+            <button type="submit" class="btn btn-danger"><strong>Logout</strong></button>
+        </fieldset>
+    </form>
+</body>
+</html>
