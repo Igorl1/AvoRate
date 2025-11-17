@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvoRate - Add Media</title>
+    {% include 'tracker/header.html' %}
+</head>
+<body>
+    {% include 'tracker/global_links.html' %}
+    <h1><strong>What media do you want to track?</strong></h1>
+    <form action="" method="POST">
+        <fieldset style="width: max-content;">
+            {% csrf_token %}
+            <table class='form'>
+                {{ form.as_table }}
+            </table>
+            <button type="submit" class="btn btn-secondary"><strong>Add to List</strong></button>
+        </fieldset>
+    </form>
+</body>
+</html>
