@@ -32,9 +32,11 @@ def create_app():
         return User.query.get(int(user_id))
 
     # Register blueprints
-    from .auth import auth as auth_blueprint
+    from controllers.auth_controller import auth as auth_blueprint
+
     app.register_blueprint(auth_blueprint)
     from app.routes.tracker_routes import tracker_bp
+
     app.register_blueprint(tracker_bp)
 
     return app
