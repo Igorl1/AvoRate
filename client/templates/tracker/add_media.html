@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AvoRate - Add Media</title>
     {% include 'tracker/header.html' %}
-</head>
-<body>
+  </head>
+  <body>
     {% include 'tracker/global_links.html' %}
     <h1><strong>What media do you want to track?</strong></h1>
-    <form action="" method="POST">
-        <fieldset style="width: max-content;">
-            {% csrf_token %}
-            <table class='form'>
-                {{ form.as_table }}
-            </table>
-            <button type="submit" class="btn btn-secondary"><strong>Add to List</strong></button>
-        </fieldset>
+    <form action="{{ url_for('tracker.add_media') }}" method="POST">
+      <fieldset style="width: max-content">
+        <table class="form">
+          <tr>
+            <td>Title</td>
+            <td><input type="text" name="title" required /></td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td><input type="text" name="status" /></td>
+          </tr>
+          <tr>
+            <td>Rating</td>
+            <td><input type="number" name="rating" min="0" max="10" /></td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td><input type="text" name="type" /></td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td><textarea name="description"></textarea></td>
+          </tr>
+        </table>
+        <button type="submit" class="btn btn-secondary">
+          <strong>Add to List</strong>
+        </button>
+      </fieldset>
     </form>
-</body>
+  </body>
 </html>

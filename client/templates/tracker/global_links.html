@@ -2,16 +2,16 @@
 To include this HTML page fragment in an HTML page use:
 { % include 'tracker/global_links.html' % }
 -->
-<a class="btn btn-primary">
-<strong>Home</strong>
+<a href="{{ url_for('tracker.home') }}" class="btn btn-primary">
+  <strong>Home</strong>
 </a>
-<a class="btn btn-primary">
-<strong>Add Media</strong>
+<a href="{{ url_for('tracker.add_media') }}" class="btn btn-primary">
+  <strong>Add Media</strong>
 </a>
-<a class="btn btn-primary">
-<strong>Logout</strong>
+<a href="{{ url_for('auth.logout') }}" class="btn btn-primary">
+  <strong>Logout</strong>
 </a>
-<a class="btn btn-danger">
-<strong>Delete Account</strong>
+<a href="{{ url_for('auth.delete_account') }}" class="btn btn-danger">
+  <strong>Delete Account</strong>
 </a>
-<hr>
+<hr />

@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AvoRate - Create Account</title>
     {% include 'tracker/header.html' %}
-</head>
-<body>
-    {% include 'accounts/global_links.html' %}
+  </head>
+  <body>
+    {% include 'registration/global_links.html' %}
     <h1><strong>Create your account!</strong></h1>
-    
-    {% if form.errors %}
-        <div style="color: rgb(255, 0, 0); background-color: #ffebee; padding: 10px; border: 1px solid red; margin: 10px 0;">
-            <strong>Please correct the following errors:</strong>
-            {{ form.errors }}
-        </div>
-    {% endif %}
-    
-    <form action="" method="POST">
-        <fieldset style="width: max-content;">
-            {% csrf_token %}
-            <table class='form'>
-                {{ form.as_table }}
-            </table>
-            <button type="submit" class="btn btn-secondary"><strong>Create Account</strong></button>
-        </fieldset>
+
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div
+      style="
+        color: #900;
+        background: #ffebee;
+        padding: 10px;
+        border: 1px solid #c00;
+        margin: 10px 0;
+      "
+    >
+      {% for m in messages %}
+      <div>{{ m }}</div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <form action="{{ url_for('auth.signup_post') }}" method="POST">
+      <fieldset style="width: max-content">
+        <table class="form">
+          <tr>
+            <td>Name</td>
+            <td><input type="text" name="name" required /></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><input type="email" name="email" required /></td>
+          </tr>
+          <tr>
+            <td>Password</td>
+            <td><input type="password" name="password" required /></td>
+          </tr>
+        </table>
+        <button type="submit" class="btn btn-secondary">
+          <strong>Create Account</strong>
+        </button>
+      </fieldset>
     </form>
-</body>
+  </body>
 </html>

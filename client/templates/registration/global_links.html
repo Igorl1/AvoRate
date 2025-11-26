@@ -2,7 +2,7 @@
 To include this HTML page fragment in an HTML page use:
 { % include 'registration/global_links.html' % }
 -->
-<a href="{% url 'home' %}" class="btn btn-primary">
-<strong>Go Back</strong>
+<a href="{{ url_for('tracker.view_landing_page') }}" class="btn btn-primary">
+  <strong>Go Back</strong>
 </a>
-<hr>
+<hr />

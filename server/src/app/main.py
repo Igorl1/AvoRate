@@ -1,12 +1,40 @@
-# TODO: Routes need to be moved to app/routes
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from pathlib import Path
 
-from flask import Flask, render_template
-from pathlib import Path    # For handling file paths
+# Initialize SQLAlchemy instance (outside create_app for import access)
+db = SQLAlchemy()
 
-REPO_ROOT = Path(__file__).resolve().parents[3] # TEMPORARY FOR TESTING. Ideally, backend should act as an API
 
-app = Flask(__name__, template_folder=str(REPO_ROOT / 'client' / 'templates')) # Create an instance of the Flask class
+def create_app():
+    REPO_ROOT = Path(__file__).resolve().parents[3]
+    app = Flask(__name__, template_folder=str(REPO_ROOT / "client" / "templates"))
 
-@app.route("/") # Decorator to tell Flask what URL should trigger the function
-def home():
-    return render_template('tracker/media_list.html')
+    # Configuration
+    app.config["SECRET_KEY"] = "your-secret-key-change-in-production"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    # Initialize extensions with app
+    db.init_app(app)
+
+    # Configure Flask-Login
+    login_manager = LoginManager()
+    login_manager.login_view = "auth.login"
+    login_manager.init_app(app)
+
+    # User loader function for Flask-Login
+    from .models import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    # Register blueprints
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint)
+    from app.routes.tracker_routes import tracker_bp
+    app.register_blueprint(tracker_bp)
+
+    return app

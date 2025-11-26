@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AvoRate - Delete Media</title>
     {% include 'tracker/header.html' %}
-</head>
-<body>
+  </head>
+  <body>
     {% include 'tracker/global_links.html' %}
-    <h1><strong>Are you sure you want to delete "{{ media.title }}"?</strong></h1>
+    <h1>
+      <strong>Are you sure you want to delete "{{ media.title }}"?</strong>
+    </h1>
     <form action="" method="POST">
-        <fieldset style="width: max-content;">
-            {% csrf_token %}
-            <a href="{% url 'tracker:tracker_home' %}" class="btn btn-secondary"><strong>Cancel</strong></a>
-            <span style="margin-left: 50px;"></span>
-            <button type="submit" class="btn btn-danger"><strong>Delete</strong></button>
-        </fieldset>
+      <fieldset style="width: max-content">
+        <a href="{{ url_for('tracker.home') }}" class="btn btn-secondary"
+          ><strong>Cancel</strong></a
+        >
+        <span style="margin-left: 50px"></span>
+        <button type="submit" class="btn btn-danger">
+          <strong>Delete</strong>
+        </button>
+      </fieldset>
     </form>
-</body>
+  </body>
 </html>
