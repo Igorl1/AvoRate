@@ -1,42 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AvoRate - Add Media</title>
     {% include 'tracker/header.html' %}
+    <title>
+      AvoRate -
+      {% if item is defined %}Editar item{% else %}Adicionar item{% endif %}
+    </title>
   </head>
   <body>
     {% include 'tracker/global_links.html' %}
-    <h1><strong>What media do you want to track?</strong></h1>
-    <form action="{{ url_for('tracker.add_media') }}" method="POST">
-      <fieldset style="width: max-content">
-        <table class="form">
-          <tr>
-            <td>Title</td>
-            <td><input type="text" name="title" required /></td>
-          </tr>
-          <tr>
-            <td>Status</td>
-            <td><input type="text" name="status" /></td>
-          </tr>
-          <tr>
-            <td>Rating</td>
-            <td><input type="number" name="rating" min="0" max="10" /></td>
-          </tr>
-          <tr>
-            <td>Type</td>
-            <td><input type="text" name="type" /></td>
-          </tr>
-          <tr>
-            <td>Description</td>
-            <td><textarea name="description"></textarea></td>
-          </tr>
-        </table>
-        <button type="submit" class="btn btn-secondary">
-          <strong>Add to List</strong>
-        </button>
-      </fieldset>
-    </form>
+
+    <main class="page-container">
+      <section class="card">
+        <a href="#" class="btn-ghost" style="margin-bottom: 1rem">
+          <!-- backend: trocar href="#" por url_for('tracker.home') -->
+          ← Voltar ao dashboard
+        </a>
+
+        <h1 class="page-title">
+          {% if item is defined %}Editar item{% else %}Adicionar item{% endif %}
+        </h1>
+
+        <form class="form" method="POST" action="">
+          <div class="form-field">
+            <label for="title">Título</label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              required
+              value="{{ item.title if item is defined else '' }}"
+            />
+          </div>
+
+          <div class="form-row-inline">
+            <div class="form-field">
+              <label for="media_type">Tipo de mídia</label>
+              {% set types = media_types if media_types is defined else ['MOVIE', 'SERIES', 'BOOK', 'GAME'] %}
+              <select id="media_type" name="media_type" required>
+                <option value="" disabled {% if item is not defined or not item.media_type %}selected{% endif %}>
+                  Selecione...
+                </option>
+                {% for t in types %}
+                <option
+                  value="{{ t }}"
+                  {% if item is defined and item.media_type == t %}selected{% endif %}
+                >
+                  {{ t }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="status">Status</label>
+              {% set statuses = status_choices if status_choices is defined else ['PLANNED', 'CONSUMING', 'COMPLETED', 'DROPPED'] %}
+              <select id="status" name="status" required>
+                {% set current_status = item.status if item is defined else 'PLANNED' %}
+                {% for s in statuses %}
+                <option
+                  value="{{ s }}"
+                  {% if s == current_status %}selected{% endif %}
+                >
+                  {{ s }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-inline">
+            <div class="form-field">
+              <label for="rating">Nota (0 a 10)</label>
+              <input
+                id="rating"
+                name="rating"
+                type="number"
+                min="0"
+                max="10"
+                step="1"
+                value="{{ item.rating if item is defined and item.rating is not none else '' }}"
+              />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="review">Review / Descrição</label>
+            <textarea
+              id="review"
+              name="review"
+              placeholder="Opcional: escreva o que você achou ou por que quer acompanhar esta mídia"
+            >{{ item.review if item is defined else '' }}</textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">
+              {% if item is defined %}Salvar alterações{% else %}Adicionar ao dashboard{% endif %}
+            </button>
+
+            <!-- backend: esse botão pode virar um link para deletar (ex: url_for('tracker.delete_media', id=item.id)) -->
+            {% if item is defined %}
+            <button
+              type="button"
+              class="btn-danger"
+              onclick="alert('backend: ligar depois com rota de exclusão')"
+            >
+              Excluir
+            </button>
+            {% endif %}
+          </div>
+        </form>
+      </section>
+    </main>
   </body>
 </html>

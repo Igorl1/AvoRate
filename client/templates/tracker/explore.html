@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    {% include 'tracker/header.html' %}
+    <title>AvoRate - Explorar</title>
+  </head>
+  <body>
+    {% include 'tracker/global_links.html' %}
+
+    <main class="page-container">
+      <section class="card">
+        <h1 class="page-title">Explorar o AvoRate</h1>
+        <p class="text-muted" style="margin-top: -0.5rem; font-size: 0.95rem">
+          Veja o que você consegue fazer com sua estante de filmes, séries,
+          livros e jogos.
+        </p>
+
+        <div class="spacer-md"></div>
+
+        <div class="shelf-section">
+          <h2 class="section-title">Funcionalidades principais</h2>
+
+          <div style="display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr);">
+            <article
+              class="card"
+              style="padding: 1rem 1.25rem; border-radius: 6px; border: 1px solid var(--border); box-shadow: none;"
+            >
+              <h3 class="section-title" style="margin-bottom: 0.35rem">
+                Track Progress
+              </h3>
+              <p class="text-muted" style="font-size: 0.9rem; margin: 0;">
+                Marque cada item como
+                <strong>Planned</strong>, <strong>Consuming</strong>,
+                <strong>Completed</strong> ou outros estados que fizerem
+                sentido para você. Acompanhe o que está lendo, assistindo ou
+                jogando em tempo real.
+              </p>
+            </article>
+
+            <article
+              class="card"
+              style="padding: 1rem 1.25rem; border-radius: 6px; border: 1px solid var(--border); box-shadow: none;"
+            >
+              <h3 class="section-title" style="margin-bottom: 0.35rem">
+                Rate &amp; Review
+              </h3>
+              <p class="text-muted" style="font-size: 0.9rem; margin: 0;">
+                Dê notas de <strong>1 a 10</strong> e escreva pequenas
+                descrições sobre o que achou. Com o tempo, seu dashboard vira
+                um histórico pessoal de tudo o que você já consumiu.
+              </p>
+            </article>
+
+            <article
+              class="card"
+              style="padding: 1rem 1.25rem; border-radius: 6px; border: 1px solid var(--border); box-shadow: none;"
+            >
+              <h3 class="section-title" style="margin-bottom: 0.35rem">
+                Organize by Media Type
+              </h3>
+              <p class="text-muted" style="font-size: 0.9rem; margin: 0;">
+                Separe sua coleção por tipo de mídia: filmes, séries, livros,
+                jogos… Filtre e navegue só pelo que você quer ver em cada
+                momento.
+              </p>
+            </article>
+
+            <article
+              class="card"
+              style="padding: 1rem 1.25rem; border-radius: 6px; border: 1px solid var(--border); box-shadow: none;"
+            >
+              <h3 class="section-title" style="margin-bottom: 0.35rem">
+                Personal Dashboard
+              </h3>
+              <p class="text-muted" style="font-size: 0.9rem; margin: 0;">
+                Veja apenas os itens que você está rastreando, com status,
+                notas e reviews organizados em um único lugar. É aqui que as
+                outras três funcionalidades se encontram.
+              </p>
+            </article>
+          </div>
+        </div>
+
+        <div class="spacer-md"></div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <a
+            href="{{ url_for('tracker.home') }}"
+            class="btn-primary"
+            style="text-decoration: none;"
+          >
+            Ir para o Dashboard
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

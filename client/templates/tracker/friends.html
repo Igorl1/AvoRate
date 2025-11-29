@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    {% include 'tracker/header.html' %}
+    <title>AvoRate - Amigos</title>
+  </head>
+  <body>
+    {% include 'tracker/global_links.html' %}
+
+    <main class="page-container">
+      <section class="card">
+        <h1 class="page-title">Amigos</h1>
+
+        <div class="shelf-section">
+          <h2 class="section-title">Convites recebidos</h2>
+
+          <div class="friends-list">
+            {% if friend_invites %}
+              {% for invite in friend_invites %}
+              <div class="friend-row">
+                <div class="friend-main">
+                  <div class="friend-avatar"></div>
+                  <div>
+                    <div class="friend-name">{{ invite.name }}</div>
+                    <div class="friend-meta">
+                      {{ invite.mutual_count }} amigos em comum
+                    </div>
+                  </div>
+                </div>
+
+                <button class="btn-secondary" type="button">
+                  Aceitar
+                </button>
+              </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted" style="font-size: 0.9rem">
+                Nenhum convite recebido no momento.
+              </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="shelf-section">
+          <div
+            class="form-row-inline"
+            style="
+              align-items: center;
+              justify-content: space-between;
+              margin-bottom: 0.75rem;
+            "
+          >
+            <h2 class="section-title" style="margin: 0">Amigos</h2>
+            <button class="btn-secondary" type="button">
+              Adicionar amigos
+            </button>
+          </div>
+
+          <div class="form-field" style="margin-bottom: 0.75rem">
+            <input
+              type="search"
+              placeholder="Buscar amigo"
+              name="search_friend"
+            />
+          </div>
+
+          <div class="friends-list">
+            {% if friends %}
+              {% for friend in friends %}
+              <div class="friend-row">
+                <div class="friend-main">
+                  <div class="friend-avatar"></div>
+                  <div>
+                    <div class="friend-name">{{ friend.name }}</div>
+                    <div class="friend-meta">
+                      {{ friend.stats or 'Nenhuma informação adicional' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted" style="font-size: 0.9rem">
+                Você ainda não adicionou amigos.
+              </p>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
