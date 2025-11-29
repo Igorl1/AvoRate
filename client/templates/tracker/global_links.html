@@ -1,17 +1,60 @@
-<!--
-To include this HTML page fragment in an HTML page use:
-{ % include 'tracker/global_links.html' % }
--->
-<a href="{{ url_for('tracker.home') }}" class="btn btn-primary">
-  <strong>Home</strong>
-</a>
-<a href="{{ url_for('tracker.add_media') }}" class="btn btn-primary">
-  <strong>Add Media</strong>
-</a>
-<a href="{{ url_for('auth.logout') }}" class="btn btn-primary">
-  <strong>Logout</strong>
-</a>
-<a href="{{ url_for('auth.delete_account') }}" class="btn btn-danger">
-  <strong>Delete Account</strong>
-</a>
-<hr />
+<header class="topbar">
+  <div class="topbar-left">
+    <a href="{{ url_for('tracker.home') }}" class="brand">
+      <span class="brand-logo">🥑</span>
+      <span class="brand-name">AvoRate</span>
+    </a>
+
+    <nav class="topbar-nav">
+      <a
+        href="{{ url_for('tracker.explore') }}"
+        class="nav-link {% if request.endpoint == 'tracker.explore' %}active{% endif %}"
+      >
+        Explorar
+      </a>
+
+      <a
+        href="{{ url_for('tracker.home') }}"
+        class="nav-link {% if request.endpoint == 'tracker.home' %}active{% endif %}"
+      >
+        Dashboard
+      </a>
+
+      <a
+        href="{{ url_for('tracker.shelf') }}"
+        class="nav-link {% if request.endpoint == 'tracker.shelf' %}active{% endif %}"
+      >
+        Estante
+      </a>
+
+      <a
+        href="{{ url_for('tracker.friends') }}"
+        class="nav-link {% if request.endpoint == 'tracker.friends' %}active{% endif %}"
+      >
+        Amigos
+      </a>
+    </nav>
+  </div>
+
+  <div class="topbar-right">
+    <button class="icon-button" type="button" aria-label="Pesquisar">
+      🔍
+    </button>
+
+    {% if current_user.is_authenticated %}
+    <!-- AGORA É UM LINK, NÃO UM FORM -->
+    <a
+      href="{{ url_for('auth.logout') }}"
+      class="icon-button"
+      title="Sair"
+      style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;"
+    >
+      <span class="avatar-circle">
+        {{ current_user.name[0]|upper if current_user.name else 'U' }}
+      </span>
+    </a>
+    {% else %}
+    <a href="{{ url_for('auth.login') }}" class="primary-link">Entrar</a>
+    {% endif %}
+  </div>
+</header>

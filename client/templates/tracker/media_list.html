@@ -1,108 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AvoRate - Media List</title>
     {% include 'tracker/header.html' %}
-    <style>
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 20px 0;
-      }
-
-      th,
-      td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid #555;
-      }
-
-      th {
-        background-color: #2c2c2c;
-        font-weight: bold;
-        border-bottom: 2px solid #777;
-      }
-
-      tr:hover {
-        background-color: #172c3f;
-      }
-
-      td a {
-        margin-right: 5px;
-      }
-    </style>
+    <title>AvoRate - Seu Dashboard</title>
   </head>
   <body>
     {% include 'tracker/global_links.html' %}
-    <h1>
-      <strong>Your Tracked Media</strong>
-    </h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Status</th>
-          <th>Rating</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if media %} {% for item in media %}
-        <tr>
-          <td>{{ item.title }}</td>
-          {% if item.status %}
-          <td>{{ item.status }}</td>
-          {% else %}
-          <td>No status defined.</td>
-          {% endif %} {% if item.rating %}
-          <td>{{ item.rating }}</td>
-          {% else %}
-          <td>No rating defined.</td>
-          {% endif %} {% if item.type %}
-          <td>{{ item.type }}</td>
-          {% else %}
-          <td>No type defined.</td>
-          {% endif %} {% if item.description %}
-          <td>{{ item.description }}</td>
-          {% else %}
-          <td>No description defined.</td>
-          {% endif %}
-          <td>
-            <a
-              href="{{ url_for('tracker.edit_media', media_id=item.pk) }}"
-              class="btn btn-primary"
-              >Edit</a
-            >
-            <a
-              href="{{ url_for('tracker.delete_media', media_id=item.pk) }}"
-              class="btn btn-danger"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        {% endfor %}
-        <tr>
-          <td colspan="6" style="text-align: center; padding: 20px">
-            <a href="{{ url_for('tracker.add_media') }}" class="btn btn-primary"
-              ><strong>Add Media</strong></a
-            >
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="6" style="text-align: center; padding: 20px">
-            <strong
-              >No entries found. To add an entry, click
-              <a href="{{ url_for('tracker.add_media') }}">here</a></strong
-            >
-          </td>
-        </tr>
-        {% endif %}
-      </tbody>
-    </table>
+
+    <main class="page-container">
+      <section class="card">
+        <h1 class="page-title">Seu Dashboard</h1>
+        <p class="text-muted" style="margin-top: -0.5rem; margin-bottom: 1rem; font-size: 0.9rem">
+          Acompanhe apenas o que você está rastreando: organize por tipo, status e avaliações.
+        </p>
+
+        <!-- Filtros de busca / tipo / status / ordenação -->
+        <form class="media-search-bar" method="GET" action="">
+          <div class="media-search-input">
+            <input
+              type="search"
+              name="q"
+              placeholder="Buscar pelo título..."
+              value="{{ request.args.get('q', '') if request is defined else '' }}"
+            />
+          </div>
+
+          <div class="form-field" style="max-width: 160px">
+            <select name="media_type">
+              {% set types = media_types if media_types is defined else ['MOVIE', 'SERIES', 'BOOK', 'GAME'] %}
+              <option value="">Tipo</option>
+              {% for t in types %}
+              <option
+                value="{{ t }}"
+                {% if request is defined and request.args.get('media_type') == t %}selected{% endif %}
+              >
+                {{ t }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-field" style="max-width: 160px">
+            {% set statuses = status_choices if status_choices is defined else ['PLANNED', 'CONSUMING', 'COMPLETED', 'DROPPED'] %}
+            <select name="status">
+              <option value="">Status</option>
+              {% for s in statuses %}
+              <option
+                value="{{ s }}"
+                {% if request is defined and request.args.get('status') == s %}selected{% endif %}
+              >
+                {{ s }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-field" style="max-width: 180px">
+            <select name="order_by">
+              <option value="">Ordenar por</option>
+              <option
+                value="created_at"
+                {% if request is defined and request.args.get('order_by') == 'created_at' %}selected{% endif %}
+              >
+                Mais recentes
+              </option>
+              <option
+                value="rating"
+                {% if request is defined and request.args.get('order_by') == 'rating' %}selected{% endif %}
+              >
+                Nota
+              </option>
+              <option
+                value="title"
+                {% if request is defined and request.args.get('order_by') == 'title' %}selected{% endif %}
+              >
+                Título (A–Z)
+              </option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-secondary">Filtrar</button>
+        </form>
+
+        <div class="spacer-sm"></div>
+
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem">
+          <!-- backend: trocar href="#" por link para rota de criar item (ex: url_for('tracker.add_media')) -->
+          <a href="#" class="btn-primary" style="text-decoration: none">
+            + Adicionar item
+          </a>
+        </div>
+
+        <div class="media-layout">
+          <!-- Coluna esquerda: lista de itens rastreados -->
+          <div>
+            <div class="media-list">
+              {% if items is defined and items %}
+              {% for item in items %}
+              <article class="media-card">
+                <div class="media-poster"></div>
+
+                <div>
+                  <h2 class="media-info-title">
+                    {{ item.title }}
+                  </h2>
+
+                  <p class="media-meta">
+                    {{ item.media_type or 'Sem tipo' }}
+                    {% if item.year %} • {{ item.year }}{% endif %}
+                  </p>
+
+                  <div class="media-rating-row">
+                    <span class="text-muted">Status:</span>
+                    <strong>{{ item.status or 'PLANNED' }}</strong>
+                  </div>
+
+                  <div class="media-rating-row">
+                    <span class="text-muted">Nota:</span>
+                    {% if item.rating is not none %}
+                    <span class="avo-row">
+                      {# converte nota 0–10 em avocados #}
+                      {% set full = (item.rating or 0) // 2 %}
+                      {% for _ in range(full) %}
+                      <span class="avo">🥑</span>
+                      {% endfor %}
+                      <span style="margin-left: 0.25rem">{{ item.rating }}/10</span>
+                    </span>
+                    {% else %}
+                    <span class="text-muted">sem avaliação</span>
+                    {% endif %}
+                  </div>
+
+                  {% if item.review %}
+                  <p
+                    class="text-muted"
+                    style="font-size: 0.85rem; margin-top: 0.4rem; max-height: 3.2em; overflow: hidden"
+                  >
+                    “{{ item.review }}”
+                  </p>
+                  {% endif %}
+
+                  <div class="form-actions" style="margin-top: 0.6rem">
+                    <!-- backend: trocar href="#" pelos links corretos (ex: url_for('tracker.edit_media', id=item.id) / url_for('tracker.review_media', id=item.id)) -->
+                    <a href="#" class="btn-secondary" style="text-decoration: none">
+                      Editar
+                    </a>
+                    <a href="#" class="btn-secondary" style="text-decoration: none">
+                      Avaliar
+                    </a>
+                  </div>
+                </div>
+              </article>
+              {% endfor %}
+              {% else %}
+              <p class="text-muted" style="font-size: 0.9rem">
+                Você ainda não está rastreando nenhuma mídia.  
+                Use o botão <strong>“+ Adicionar item”</strong> para começar.
+              </p>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Coluna direita: resumo simples -->
+          <aside class="media-sort-card">
+            <h2 class="section-title">Resumo</h2>
+
+            <ul>
+              <li>
+                <strong>Total rastreado:</strong>
+                {{ stats.total if stats is defined and stats.total is not none else (items|length if items is defined else 0) }}
+              </li>
+              <li>
+                <strong>Consumindo:</strong>
+                {{ stats.consuming if stats is defined and stats.consuming is not none else '-' }}
+              </li>
+              <li>
+                <strong>Concluídos:</strong>
+                {{ stats.completed if stats is defined and stats.completed is not none else '-' }}
+              </li>
+              <li>
+                <strong>Planejados:</strong>
+                {{ stats.planned if stats is defined and stats.planned is not none else '-' }}
+              </li>
+            </ul>
+
+            <p class="text-muted" style="margin-top: 0.75rem; font-size: 0.85rem">
+              <!-- mensagem só pra dev backend -->
+              <!-- backend: preencher o objeto "stats" na rota para mostrar esses números de forma real -->
+              Esses números são calculados no backend a partir dos itens com user_id = usuário logado.
+            </p>
+          </aside>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

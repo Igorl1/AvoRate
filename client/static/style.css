@@ -1,0 +1,566 @@
+/* =========================
+   AvoRate - Estilos gerais
+   ========================= */
+
+:root {
+  --bg: #f3f3f3;
+  --card-bg: #ffffff;
+  --border: #d0d0d0;
+  --text-main: #222222;
+  --text-muted: #777777;
+  --primary: #3b7c3b;
+  --primary-soft: #e3f2e3;
+  --danger: #c0392b;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   Topbar (menu superior)
+   ========================= */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-left,
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e8ffb5, #8acb60);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 1rem;
+  margin-left: 2rem;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  padding-bottom: 0.15rem;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link.active {
+  color: var(--text-main);
+  border-color: var(--text-main);
+  font-weight: 600;
+}
+
+.nav-link.disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+.icon-button,
+.primary-link {
+  border-radius: var(--radius-pill);
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.icon-button span,
+.icon-button svg {
+  pointer-events: none;
+}
+
+.primary-link {
+  background: var(--primary);
+  color: #ffffff;
+  text-decoration: none;
+  border-color: var(--primary);
+}
+
+.primary-link:hover {
+  filter: brightness(0.96);
+}
+
+.avatar-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--primary-soft);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* =========================
+   Layout base
+   ========================= */
+
+.page-container {
+  max-width: 960px;
+  margin: 1.5rem auto 2rem;
+  padding: 0 1rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem 1.75rem;
+}
+
+.page-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.5rem;
+}
+
+.section-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+.spacer-sm {
+  height: 0.75rem;
+}
+
+.spacer-md {
+  height: 1.25rem;
+}
+
+/* =========================
+   Formulários
+   ========================= */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row-inline {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .form-row-inline {
+    flex-direction: column;
+  }
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.form-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-ghost {
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 1.2rem;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  filter: brightness(0.95);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: var(--text-main);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: #f7f7f7;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.95);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  background: #f5f5f5;
+}
+
+/* =========================
+   Flash messages
+   ========================= */
+
+.flash-messages {
+  margin-bottom: 1rem;
+}
+
+.flash {
+  padding: 0.6rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid var(--border);
+  background: #fafafa;
+}
+
+.flash.error {
+  border-color: #e57373;
+  background: #ffebee;
+}
+
+.flash.success {
+  border-color: #81c784;
+  background: #e8f5e9;
+}
+
+/* =========================
+   Home: lista de mídias
+   ========================= */
+
+.media-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(220px, 0.9fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .media-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.media-search-bar {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.media-search-input {
+  flex: 1;
+}
+
+.media-search-input input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.media-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.media-card {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #e1e1e1;
+  background: #ffffff;
+}
+
+.media-poster {
+  width: 70px;
+  height: 100px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #f5f5f5, #e1e1e1);
+}
+
+.media-info-title {
+  margin: 0 0 0.1rem;
+  font-size: 1rem;
+}
+
+.media-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.media-rating-row {
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.avo-row {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.avo {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.media-sort-card {
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+}
+
+.media-sort-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+}
+
+.media-sort-card li + li {
+  margin-top: 0.3rem;
+}
+
+/* =========================
+   Páginas de detalhe / avaliação
+   ========================= */
+
+.media-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .media-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.media-detail-poster {
+  width: 100%;
+  max-width: 260px;
+  height: 360px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #f5f5f5, #e1e1e1);
+  margin-bottom: 1rem;
+}
+
+.media-detail-block + .media-detail-block {
+  margin-top: 1rem;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.review-card {
+  border-radius: 6px;
+  border: 1px solid #e1e1e1;
+  padding: 0.7rem 0.8rem;
+  background: #ffffff;
+  font-size: 0.9rem;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.review-user {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.avatar-review {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: 1px solid #d2d2d2;
+}
+
+/* =========================
+   Estante / Amigos (mocks)
+   ========================= */
+
+.shelf-section {
+  margin-bottom: 1.5rem;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 120px;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.3rem;
+}
+
+.shelf-item {
+  width: 120px;
+  height: 170px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #f5f5f5, #e1e1e1);
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.friend-row {
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.8rem;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.friend-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.friend-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: 1px solid #d2d2d2;
+}
+
+.friend-name {
+  font-size: 0.95rem;
+}
+
+.friend-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
