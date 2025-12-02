@@ -13,16 +13,16 @@
     <main class="page-container">
       <section class="card">
         <a href="{{ url_for('tracker.home') }}" class="btn-ghost" style="margin-bottom: 1rem">
-          ← Voltar ao dashboard
+          ← Back to dashboard
         </a>
 
         <h1 class="page-title">
-          {% if item is defined %}Editar item{% else %}Adicionar item{% endif %}
+          {% if item is defined %}Edit item{% else %}Add item{% endif %}
         </h1>
 
         <form class="form" method="POST" action="">
           <div class="form-field">
-            <label for="title">Título</label>
+            <label for="title">Title</label>
             <input
               id="title"
               name="title"
@@ -34,7 +34,7 @@
 
           <div class="form-row-inline">
             <div class="form-field">
-              <label for="media_type">Tipo de mídia</label>
+              <label for="media_type">Type</label>
               {% set types = media_types %}
               <select id="media_type" name="media_type">
                 {% set current_type = item.mediaType.value if item is defined and item.mediaType else '' %}
@@ -68,7 +68,7 @@
 
           <div class="form-row-inline">
             <div class="form-field">
-              <label for="rating">Nota</label>
+              <label for="rating">Rating</label>
               {% set ratings = rating_choices %}
               <select id="rating" name="rating">
                 {% set current_rating = item.rating|string if item is defined and item.rating is not none else '' %}
@@ -85,17 +85,17 @@
           </div>
 
           <div class="form-field">
-            <label for="review">Review / Descrição</label>
+            <label for="review">Review / Description</label>
             <textarea
               id="review"
               name="description"
-              placeholder="Opcional: escreva o que você achou ou por que quer acompanhar esta mídia"
+              placeholder="Optional: write what you thought or why you want to follow this media"
             >{{ item.description if item is defined else '' }}</textarea>
           </div>
 
           <div class="form-actions">
             <button type="submit" class="btn-primary">
-              {% if item is defined %}Salvar alterações{% else %}Adicionar ao dashboard{% endif %}
+              {% if item is defined %}Save Changes{% else %}Adicionar ao dashboard{% endif %}
             </button>
 
             <!-- backend: esse botão pode virar um link para deletar (ex: url_for('tracker.delete_media', id=item.id)) -->
