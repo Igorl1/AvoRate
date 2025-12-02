@@ -20,6 +20,7 @@ get_media_by_id_uc = GetMediaByIdUseCase(media_repo)
 get_media_by_user_uc = GetMediaByUserUseCase(media_repo)
 update_media_uc = UpdateMediaUseCase(media_repo)
 
+
 @tracker_bp.get("/")
 def view_landing_page():
     # Public landing page (before login)
@@ -102,7 +103,7 @@ def add_media():
     )
 
 
-@tracker_bp.route("/<int:media_id>/edit", methods=["GET", "POST"]) 
+@tracker_bp.route("/<int:media_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_media(media_id):
     media = get_media_by_id_uc.execute(media_id, current_user.id)
@@ -119,7 +120,7 @@ def edit_media(media_id):
         if rating_value:
             media.rating = int(rating_value)
         else:
-            media._rating = None 
+            media._rating = None
         media.description = request.form.get("description")
 
         update_media_uc.execute(media)
@@ -137,12 +138,13 @@ def edit_media(media_id):
     ]
 
     return render_template(
-        "tracker/edit_media.html", 
+        "tracker/edit_media.html",
         media=media,
         status_choices=status_choices,
         media_types=type_choices,
-        rating_choices=rating_choices
+        rating_choices=rating_choices,
     )
+
 
 @tracker_bp.route("/<int:media_id>/delete", methods=["GET", "POST"])
 @login_required
@@ -180,5 +182,3 @@ def friends():
         friend_invites=friend_invites,
         friends=friends,
     )
-
-
