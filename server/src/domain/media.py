@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 from enum import Enum
 
@@ -27,7 +27,7 @@ class MediaType(Enum):
 class Media:
     """Domain representation of a media."""
 
-    #TODO: Add user association after login logic
+    # TODO: Add user association after login logic
     title: str
     status: Optional[MediaStatus] = None
     _rating: Optional[int] = None

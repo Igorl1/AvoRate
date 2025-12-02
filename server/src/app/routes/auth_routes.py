@@ -43,7 +43,7 @@ def signup_post():
     password = request.form.get("password")
 
     try:
-        user = auth_use_cases.signup(email, name, password)
+        auth_use_cases.signup(email, name, password)
         return redirect(url_for("auth.login"))
     except ValueError as e:
         flash(str(e))
