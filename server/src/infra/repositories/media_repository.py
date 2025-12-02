@@ -68,3 +68,18 @@ class MediaRepository:
     def get_media_by_user(self, user_id: int) -> list[Media]:
         media_models = MediaModel.query.filter_by(user_id=user_id).all()
         return [model.to_entity() for model in media_models]
+
+    def update_media(self, media: Media) -> Media:
+        media_model = MediaModel.query.filter_by(
+            id=media.id, user_id=media.user_id
+        ).first()
+        if media_model:
+            # Update media_model fields
+            media_model.title = media.title
+            media_model.status = media.status.value if media.status else None
+            media_model.rating = media.rating
+            media_model.media_type = media.mediaType.value if media.mediaType else None
+            media_model.description = media.description
+            db.session.commit()
+            return media_model.to_entity()
+        return None

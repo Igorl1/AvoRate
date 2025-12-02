@@ -32,3 +32,11 @@ class GetMediaByIdUseCase:
 
     def execute(self, media_id: int, user_id: int) -> Media:
         return self.media_repository.get_media_by_id(media_id, user_id)
+
+
+class UpdateMediaUseCase:
+    def __init__(self, media_repository: MediaRepository):
+        self.media_repository = media_repository
+
+    def execute(self, media: Media) -> Media:
+        return self.media_repository.update_media(media)
