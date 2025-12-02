@@ -29,3 +29,13 @@ flask run --debug  # Debug ensures the server will automatically reload if code 
 > Run for all users in your network:
 flask run --debug --host=0.0.0.0
 ```
+
+# Before Commiting
+- Run ruff on server folder
+```
+# Check for issues
+ruff check .
+
+# Apply automatic formatting and fixes
+ruff format .
+```
