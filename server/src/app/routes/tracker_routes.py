@@ -7,6 +7,7 @@ from src.use_cases.tracker_use_cases import (
     DeleteMediaUseCase,
     GetMediaByIdUseCase,
     GetMediaByUserUseCase,
+    UpdateMediaUseCase,
 )
 
 tracker_bp = Blueprint("tracker", __name__)
@@ -17,7 +18,7 @@ add_media_uc = AddMediaUseCase(media_repo)
 delete_media_uc = DeleteMediaUseCase(media_repo)
 get_media_by_id_uc = GetMediaByIdUseCase(media_repo)
 get_media_by_user_uc = GetMediaByUserUseCase(media_repo)
-
+update_media_uc = UpdateMediaUseCase(media_repo)
 
 @tracker_bp.get("/")
 def view_landing_page():
@@ -101,16 +102,47 @@ def add_media():
     )
 
 
-@tracker_bp.get("/<int:media_id>/edit")
+@tracker_bp.route("/<int:media_id>/edit", methods=["GET", "POST"]) 
 @login_required
 def edit_media(media_id):
-    # TODO: Implement editing media
     media = get_media_by_id_uc.execute(media_id, current_user.id)
     if not media:
         return redirect(url_for("tracker.home"))
 
-    return render_template("tracker/edit_media.html", media=media)
+    if request.method == "POST":
+        media.title = request.form.get("title")
+        status_value = request.form.get("status")
+        media.status = MediaStatus(status_value) if status_value else None
+        type_value = request.form.get("media_type")
+        media.mediaType = MediaType(type_value) if type_value else None
+        rating_value = request.form.get("rating")
+        if rating_value:
+            media.rating = int(rating_value)
+        else:
+            media._rating = None 
+        media.description = request.form.get("description")
 
+        update_media_uc.execute(media)
+        return redirect(url_for("tracker.home"))
+
+    status_choices = [("", "Select Status")] + [
+        (s.value, s.name.replace("_", " ").title()) for s in MediaStatus
+    ]
+    type_choices = [("", "Select Type")] + [
+        (t.value, t.name.replace("_", " ").title()) for t in MediaType
+    ]
+    rating_choices = [("", "Select Rating")] + [
+        (r.value, f"{r.value} - {r.name.replace('_', ' ').title()}")
+        for r in MediaRating
+    ]
+
+    return render_template(
+        "tracker/edit_media.html", 
+        media=media,
+        status_choices=status_choices,
+        media_types=type_choices,
+        rating_choices=rating_choices
+    )
 
 @tracker_bp.route("/<int:media_id>/delete", methods=["GET", "POST"])
 @login_required
@@ -148,3 +180,5 @@ def friends():
         friend_invites=friend_invites,
         friends=friends,
     )
+
+
