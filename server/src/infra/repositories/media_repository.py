@@ -74,7 +74,6 @@ class MediaRepository:
             id=media.id, user_id=media.user_id
         ).first()
         if media_model:
-            # Update media_model fields
             media_model.title = media.title
             media_model.status = media.status.value if media.status else None
             media_model.rating = media.rating
