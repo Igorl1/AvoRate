@@ -1,7 +1,22 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
+from src.domain.media import MediaStatus, MediaType, MediaRating, Media
+from src.infra.repositories.media_repository import MediaRepository
+from src.use_cases.tracker_use_cases import (
+    AddMediaUseCase,
+    DeleteMediaUseCase,
+    GetMediaByIdUseCase,
+    GetMediaByUserUseCase,
+)
 
 tracker_bp = Blueprint("tracker", __name__)
+
+# Initialize repository and use cases
+media_repo = MediaRepository()
+add_media_uc = AddMediaUseCase(media_repo)
+delete_media_uc = DeleteMediaUseCase(media_repo)
+get_media_by_id_uc = GetMediaByIdUseCase(media_repo)
+get_media_by_user_uc = GetMediaByUserUseCase(media_repo)
 
 
 @tracker_bp.get("/")
@@ -13,8 +28,27 @@ def view_landing_page():
 @tracker_bp.get("/tracker", endpoint="home")
 @login_required
 def view_media_list():
-    # Personal dashboard (where tracking features will be used)
-    return render_template("tracker/media_list.html")
+    media_list = get_media_by_user_uc.execute(current_user.id)
+
+    # Calculate stats
+    stats = {
+        "total": len(media_list),
+        "consuming": sum(1 for m in media_list if m.status == MediaStatus.CONSUMING),
+        "completed": sum(1 for m in media_list if m.status == MediaStatus.COMPLETED),
+        "planned": sum(1 for m in media_list if m.status == MediaStatus.PLANNED),
+    }
+
+    # Choices for filters
+    status_choices = [(s.value, s.name.replace("_", " ").title()) for s in MediaStatus]
+    type_choices = [(t.value, t.name.replace("_", " ").title()) for t in MediaType]
+
+    return render_template(
+        "tracker/media_list.html",
+        items=media_list,
+        stats=stats,
+        status_choices=status_choices,
+        media_types=type_choices,
+    )
 
 
 @tracker_bp.get("/explore")
@@ -27,35 +61,66 @@ def explore():
 @tracker_bp.route("/add", methods=["GET", "POST"])
 @login_required
 def add_media():
-    # Simple stub: future backend will save to database
     if request.method == "POST":
-        # Here in the future: create item, associate with user etc.
+        title = request.form.get("title")
+        status = request.form.get("status")
+        rating = request.form.get("rating")
+        media_type = request.form.get("media_type")
+        description = request.form.get("description")
+
+        media = Media(
+            title=title,
+            user_id=current_user.id,
+            status=MediaStatus(status) if status else None,
+            mediaType=MediaType(media_type) if media_type else None,
+            description=description,
+        )
+        if rating:
+            media.rating = int(rating)
+
+        add_media_uc.execute(media)
         return redirect(url_for("tracker.home"))
 
-    return render_template("tracker/add_media.html")
+    # Choices for template
+    status_choices = [("", "Select Status")] + [
+        (s.value, s.name.replace("_", " ").title()) for s in MediaStatus
+    ]
+    type_choices = [("", "Select Type")] + [
+        (t.value, t.name.replace("_", " ").title()) for t in MediaType
+    ]
+    rating_choices = [("", "Select Rating")] + [
+        (r.value, f"{r.value} - {r.name.replace('_', ' ').title()}")
+        for r in MediaRating
+    ]
+
+    return render_template(
+        "tracker/add_media.html",
+        status_choices=status_choices,
+        media_types=type_choices,
+        rating_choices=rating_choices,
+    )
 
 
 @tracker_bp.get("/<int:media_id>/edit")
 @login_required
 def edit_media(media_id):
-    # Example stub for editing
-    media = {
-        "id": media_id,
-        "title": "Sample",
-        "status": "",
-        "rating": "",
-        "type": "",
-        "description": "",
-    }
+    # TODO: Implement editing media
+    media = get_media_by_id_uc.execute(media_id, current_user.id)
+    if not media:
+        return redirect(url_for("tracker.home"))
+
     return render_template("tracker/edit_media.html", media=media)
 
 
 @tracker_bp.route("/<int:media_id>/delete", methods=["GET", "POST"])
 @login_required
 def delete_media(media_id):
-    media = {"id": media_id, "title": "Sample"}
+    media = get_media_by_id_uc.execute(media_id, current_user.id)
+    if not media:
+        return redirect(url_for("tracker.home"))  # or maybe error?
+
     if request.method == "POST":
-        # Future: actually delete and redirect
+        delete_media_uc.execute(media_id, current_user.id)
         return redirect(url_for("tracker.home"))
 
     return render_template("tracker/delete_media.html", media=media)

@@ -12,8 +12,7 @@
 
     <main class="page-container">
       <section class="card">
-        <a href="#" class="btn-ghost" style="margin-bottom: 1rem">
-          <!-- backend: trocar href="#" por url_for('tracker.home') -->
+        <a href="{{ url_for('tracker.home') }}" class="btn-ghost" style="margin-bottom: 1rem">
           ← Voltar ao dashboard
         </a>
 
@@ -36,17 +35,15 @@
           <div class="form-row-inline">
             <div class="form-field">
               <label for="media_type">Tipo de mídia</label>
-              {% set types = media_types if media_types is defined else ['MOVIE', 'SERIES', 'BOOK', 'GAME'] %}
-              <select id="media_type" name="media_type" required>
-                <option value="" disabled {% if item is not defined or not item.media_type %}selected{% endif %}>
-                  Selecione...
-                </option>
-                {% for t in types %}
+              {% set types = media_types %}
+              <select id="media_type" name="media_type">
+                {% set current_type = item.mediaType.value if item is defined and item.mediaType else '' %}
+                {% for value, label in types %}
                 <option
-                  value="{{ t }}"
-                  {% if item is defined and item.media_type == t %}selected{% endif %}
+                  value="{{ value }}"
+                  {% if value == current_type %}selected{% endif %}
                 >
-                  {{ t }}
+                  {{ label }}
                 </option>
                 {% endfor %}
               </select>
@@ -54,15 +51,15 @@
 
             <div class="form-field">
               <label for="status">Status</label>
-              {% set statuses = status_choices if status_choices is defined else ['PLANNED', 'CONSUMING', 'COMPLETED', 'DROPPED'] %}
-              <select id="status" name="status" required>
-                {% set current_status = item.status if item is defined else 'PLANNED' %}
-                {% for s in statuses %}
+              {% set statuses = status_choices %}
+              <select id="status" name="status">
+                {% set current_status = item.status.value if item is defined and item.status else '' %}
+                {% for value, label in statuses %}
                 <option
-                  value="{{ s }}"
-                  {% if s == current_status %}selected{% endif %}
+                  value="{{ value }}"
+                  {% if value == current_status %}selected{% endif %}
                 >
-                  {{ s }}
+                  {{ label }}
                 </option>
                 {% endfor %}
               </select>
@@ -71,16 +68,19 @@
 
           <div class="form-row-inline">
             <div class="form-field">
-              <label for="rating">Nota (0 a 10)</label>
-              <input
-                id="rating"
-                name="rating"
-                type="number"
-                min="0"
-                max="10"
-                step="1"
-                value="{{ item.rating if item is defined and item.rating is not none else '' }}"
-              />
+              <label for="rating">Nota</label>
+              {% set ratings = rating_choices %}
+              <select id="rating" name="rating">
+                {% set current_rating = item.rating|string if item is defined and item.rating is not none else '' %}
+                {% for value, label in ratings %}
+                <option
+                  value="{{ value }}"
+                  {% if value == current_rating %}selected{% endif %}
+                >
+                  {{ label }}
+                </option>
+                {% endfor %}
+              </select>
             </div>
           </div>
 
@@ -88,9 +88,9 @@
             <label for="review">Review / Descrição</label>
             <textarea
               id="review"
-              name="review"
+              name="description"
               placeholder="Opcional: escreva o que você achou ou por que quer acompanhar esta mídia"
-            >{{ item.review if item is defined else '' }}</textarea>
+            >{{ item.description if item is defined else '' }}</textarea>
           </div>
 
           <div class="form-actions">

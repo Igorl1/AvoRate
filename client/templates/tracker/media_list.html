@@ -27,29 +27,27 @@
 
           <div class="form-field" style="max-width: 160px">
             <select name="media_type">
-              {% set types = media_types if media_types is defined else ['MOVIE', 'SERIES', 'BOOK', 'GAME'] %}
               <option value="">Tipo</option>
-              {% for t in types %}
+              {% for value, label in media_types %}
               <option
-                value="{{ t }}"
-                {% if request is defined and request.args.get('media_type') == t %}selected{% endif %}
+                value="{{ value }}"
+                {% if request is defined and request.args.get('media_type') == value %}selected{% endif %}
               >
-                {{ t }}
+                {{ label }}
               </option>
               {% endfor %}
             </select>
           </div>
 
           <div class="form-field" style="max-width: 160px">
-            {% set statuses = status_choices if status_choices is defined else ['PLANNED', 'CONSUMING', 'COMPLETED', 'DROPPED'] %}
             <select name="status">
               <option value="">Status</option>
-              {% for s in statuses %}
+              {% for value, label in status_choices %}
               <option
-                value="{{ s }}"
-                {% if request is defined and request.args.get('status') == s %}selected{% endif %}
+                value="{{ value }}"
+                {% if request is defined and request.args.get('status') == value %}selected{% endif %}
               >
-                {{ s }}
+                {{ label }}
               </option>
               {% endfor %}
             </select>
@@ -85,8 +83,7 @@
         <div class="spacer-sm"></div>
 
         <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem">
-          <!-- backend: trocar href="#" por link para rota de criar item (ex: url_for('tracker.add_media')) -->
-          <a href="#" class="btn-primary" style="text-decoration: none">
+          <a href="{{ url_for('tracker.add_media') }}" class="btn-primary" style="text-decoration: none">
             + Adicionar item
           </a>
         </div>
@@ -106,13 +103,12 @@
                   </h2>
 
                   <p class="media-meta">
-                    {{ item.media_type or 'Sem tipo' }}
-                    {% if item.year %} • {{ item.year }}{% endif %}
+                    {{ item.mediaType.value if item.mediaType else 'Sem tipo' }}
                   </p>
 
                   <div class="media-rating-row">
                     <span class="text-muted">Status:</span>
-                    <strong>{{ item.status or 'PLANNED' }}</strong>
+                    <strong>{{ item.status.value if item.status else 'PLANNED' }}</strong>
                   </div>
 
                   <div class="media-rating-row">
@@ -131,22 +127,21 @@
                     {% endif %}
                   </div>
 
-                  {% if item.review %}
+                  {% if item.description %}
                   <p
                     class="text-muted"
                     style="font-size: 0.85rem; margin-top: 0.4rem; max-height: 3.2em; overflow: hidden"
                   >
-                    “{{ item.review }}”
+                    “{{ item.description }}”
                   </p>
                   {% endif %}
 
                   <div class="form-actions" style="margin-top: 0.6rem">
-                    <!-- backend: trocar href="#" pelos links corretos (ex: url_for('tracker.edit_media', id=item.id) / url_for('tracker.review_media', id=item.id)) -->
-                    <a href="#" class="btn-secondary" style="text-decoration: none">
+                    <a href="{{ url_for('tracker.edit_media', media_id=item.id) }}" class="btn-secondary" style="text-decoration: none">
                       Editar
                     </a>
-                    <a href="#" class="btn-secondary" style="text-decoration: none">
-                      Avaliar
+                    <a href="{{ url_for('tracker.delete_media', media_id=item.id) }}" class="btn-danger" style="text-decoration: none">
+                      Excluir
                     </a>
                   </div>
                 </div>
@@ -185,9 +180,6 @@
             </ul>
 
             <p class="text-muted" style="margin-top: 0.75rem; font-size: 0.85rem">
-              <!-- mensagem só pra dev backend -->
-              <!-- backend: preencher o objeto "stats" na rota para mostrar esses números de forma real -->
-              Esses números são calculados no backend a partir dos itens com user_id = usuário logado.
             </p>
           </aside>
         </div>
