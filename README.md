@@ -39,3 +39,9 @@ ruff check .
 # Apply automatic formatting and fixes
 ruff format .
 ```
+
+# Testing
+- Run pytest on server folder
+```
+pytest
+```
