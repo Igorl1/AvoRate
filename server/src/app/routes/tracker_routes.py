@@ -37,7 +37,7 @@ def view_media_list():
         "total": len(media_list),
         "consuming": sum(1 for m in media_list if m.status == MediaStatus.CONSUMING),
         "completed": sum(1 for m in media_list if m.status == MediaStatus.COMPLETED),
-        "planned": sum(1 for m in media_list if m.status == MediaStatus.PLANNED),
+        "planned": sum(1 for m in media_list if m.status == MediaStatus.PLANNED or m.status is None),
     }
 
     # Choices for filters
