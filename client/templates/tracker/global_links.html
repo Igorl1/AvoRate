@@ -24,20 +24,20 @@
         href="{{ url_for('tracker.shelf') }}"
         class="nav-link {% if request.endpoint == 'tracker.shelf' %}active{% endif %}"
       >
-        Estante
+        Shelf
       </a>
 
       <a
         href="{{ url_for('tracker.friends') }}"
         class="nav-link {% if request.endpoint == 'tracker.friends' %}active{% endif %}"
       >
-        Amigos
+        Friends
       </a>
     </nav>
   </div>
 
   <div class="topbar-right">
-    <button class="icon-button" type="button" aria-label="Pesquisar">
+    <button class="icon-button" type="button" aria-label="Search">
       🔍
     </button>
 
@@ -54,7 +54,7 @@
       </span>
     </a>
     {% else %}
-    <a href="{{ url_for('auth.login') }}" class="primary-link">Entrar</a>
+    <a href="{{ url_for('auth.login') }}" class="primary-link">Login</a>
     {% endif %}
   </div>
 </header>

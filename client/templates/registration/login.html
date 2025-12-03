@@ -39,7 +39,7 @@
           </div>
 
           <div class="form-field">
-            <label for="password">Senha</label>
+            <label for="password">Password</label>
             <input
               id="password"
               name="password"
@@ -50,20 +50,20 @@
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn-primary">Entrar</button>
+            <button type="submit" class="btn-primary">Login</button>
           </div>
         </form>
 
         <div class="spacer-md"></div>
 
         <p class="text-muted" style="font-size: 0.9rem">
-          Ainda não tem conta?
-          <a href="{{ url_for('auth.signup') }}">Registre-se</a>
+          Don't have an account yet?
+          <a href="{{ url_for('auth.signup') }}">Sign up</a>
         </p>
 
         <p style="margin-top: 0.25rem; font-size: 0.9rem">
-          <a href="#" class="text-muted">Esqueceu sua senha?</a>
-          <!-- Link só visual por enquanto -->
+          <a href="#" class="text-muted">Forgot your password?</a> 
+          <!-- fake link for now -->
         </p>
       </section>
     </main>

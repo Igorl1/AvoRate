@@ -3,8 +3,8 @@
   <head>
     {% include 'tracker/header.html' %}
     <title>
-      AvoRate - Avaliar
-      {{ item.title if item is defined else 'mídia' }}
+      AvoRate - Rate & Review
+      {{ item.title if item is defined else 'media' }}
     </title>
   </head>
   <body>
@@ -13,8 +13,8 @@
     <main class="page-container">
       <section class="card">
         <a href="#" class="btn-ghost" style="margin-bottom: 1rem">
-          <!-- backend: trocar href="#" por url_for('tracker.home') ou detalhe do item -->
-          ← Voltar
+          <!-- backend: change href="#" to url_for('tracker.home') or item detail -->
+          ← Back to dashboard
         </a>
 
         <div
@@ -34,7 +34,7 @@
 
           <div style="flex: 2 1 260px">
             <h1 class="page-title" style="margin-bottom: 0.25rem">
-              {{ item.title if item is defined else 'Título da mídia' }}
+              {{ item.title if item is defined else 'Media title' }}
             </h1>
             <p
               class="text-muted"
@@ -45,7 +45,7 @@
             </p>
 
             <div class="media-rating-row" style="margin-bottom: 0.75rem">
-              <span class="text-muted">Sua nota atual:</span>
+              <span class="text-muted">Your current rating:</span>
               <span class="avo-row">
                 {% set user_rating = item.rating if item is defined and item.rating is not none else 0 %}
                 {% if user_rating %}
@@ -55,14 +55,14 @@
                 {% endfor %}
                 <span style="margin-left: 0.25rem">{{ user_rating }}/10</span>
                 {% else %}
-                <span class="text-muted">sem avaliação</span>
+                <span class="text-muted">no rating</span>
                 {% endif %}
               </span>
             </div>
 
             <form class="form" method="POST" action="">
               <div class="form-field">
-                <label for="rating">Nota (0 a 10)</label>
+                <label for="rating">Rating (0 to 10)</label>
                 <input
                   id="rating"
                   name="rating"
@@ -75,16 +75,16 @@
               </div>
 
               <div class="form-field">
-                <label for="review">Adicionar uma avaliação...</label>
+                <label for="review">Add a review...</label>
                 <textarea
                   id="review"
                   name="review"
-                  placeholder="Escreva aqui o que achou da mídia"
+                  placeholder="Write here what you thought about the media"
                 >{{ item.review if item is defined else '' }}</textarea>
               </div>
 
               <div class="form-actions">
-                <button type="submit" class="btn-primary">Salvar</button>
+                <button type="submit" class="btn-primary">Save</button>
               </div>
             </form>
           </div>

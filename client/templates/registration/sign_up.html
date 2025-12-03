@@ -2,14 +2,14 @@
 <html lang="pt-BR">
   <head>
     {% include 'tracker/header.html' %}
-    <title>AvoRate - Registrar</title>
+    <title>AvoRate - Register</title>
   </head>
   <body>
     {% include 'registration/global_links.html' %}
 
     <main class="page-container">
       <section class="card">
-        <h1 class="page-title">Registrar-me</h1>
+        <h1 class="page-title">Register</h1>
 
         <div class="flash-messages">
           {% with messages = get_flashed_messages(with_categories=true) %}
@@ -28,7 +28,7 @@
           novalidate
         >
           <div class="form-field">
-            <label for="name">Nome</label>
+            <label for="name">Name</label>
             <input
               id="name"
               name="name"
@@ -49,9 +49,8 @@
             />
           </div>
 
-          <!-- AQUI é o ponto importante: name="password" -->
           <div class="form-field">
-            <label for="password">Senha</label>
+            <label for="password">Password</label>
             <input
               id="password"
               name="password"
@@ -61,9 +60,8 @@
             />
           </div>
 
-          <!-- Campo de confirmação, só visual (ou pro backend se ele usar) -->
           <div class="form-field">
-            <label for="confirm_password">Confirme a Senha</label>
+            <label for="confirm_password">Confirm Password</label>
             <input
               id="confirm_password"
               name="confirm_password"
@@ -74,7 +72,7 @@
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn-primary">Entrar</button>
+            <button type="submit" class="btn-primary">Register</button>
           </div>
         </form>
       </section>

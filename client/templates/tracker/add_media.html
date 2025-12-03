@@ -4,7 +4,7 @@
     {% include 'tracker/header.html' %}
     <title>
       AvoRate -
-      {% if item is defined %}Editar item{% else %}Adicionar item{% endif %}
+      {% if item is defined %}Edit item{% else %}Add item{% endif %}
     </title>
   </head>
   <body>
@@ -105,7 +105,7 @@
               class="btn-danger"
               onclick="alert('backend: ligar depois com rota de exclusão')"
             >
-              Excluir
+              Remove item
             </button>
             {% endif %}
           </div>

@@ -2,32 +2,32 @@
 <html lang="pt-BR">
   <head>
     {% include 'tracker/header.html' %}
-    <title>AvoRate - Seu Dashboard</title>
+    <title>AvoRate - Dashboard</title>
   </head>
   <body>
     {% include 'tracker/global_links.html' %}
 
     <main class="page-container">
       <section class="card">
-        <h1 class="page-title">Seu Dashboard</h1>
+        <h1 class="page-title">Dashboard</h1>
         <p class="text-muted" style="margin-top: -0.5rem; margin-bottom: 1rem; font-size: 0.9rem">
-          Acompanhe apenas o que você está rastreando: organize por tipo, status e avaliações.
+          Track only what you are tracking: organize by type, status, and ratings.
         </p>
 
-        <!-- Filtros de busca / tipo / status / ordenação -->
+        <!-- Search / type / status / sorting filters -->
         <form class="media-search-bar" method="GET" action="">
           <div class="media-search-input">
             <input
               type="search"
               name="q"
-              placeholder="Buscar pelo título..."
+              placeholder="Search by title..."
               value="{{ request.args.get('q', '') if request is defined else '' }}"
             />
           </div>
 
           <div class="form-field" style="max-width: 160px">
             <select name="media_type">
-              <option value="">Tipo</option>
+              <option value="">Type</option>
               {% for value, label in media_types %}
               <option
                 value="{{ value }}"
@@ -55,41 +55,41 @@
 
           <div class="form-field" style="max-width: 180px">
             <select name="order_by">
-              <option value="">Ordenar por</option>
+              <option value="">Order by</option>
               <option
                 value="created_at"
                 {% if request is defined and request.args.get('order_by') == 'created_at' %}selected{% endif %}
               >
-                Mais recentes
+                Most recent
               </option>
               <option
                 value="rating"
                 {% if request is defined and request.args.get('order_by') == 'rating' %}selected{% endif %}
               >
-                Nota
+                Rating
               </option>
               <option
                 value="title"
                 {% if request is defined and request.args.get('order_by') == 'title' %}selected{% endif %}
               >
-                Título (A–Z)
+                Title (A–Z)
               </option>
             </select>
           </div>
 
-          <button type="submit" class="btn-secondary">Filtrar</button>
+          <button type="submit" class="btn-secondary">Filter</button>
         </form>
 
         <div class="spacer-sm"></div>
 
         <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem">
           <a href="{{ url_for('tracker.add_media') }}" class="btn-primary" style="text-decoration: none">
-            + Adicionar item
+            + Add item
           </a>
         </div>
 
         <div class="media-layout">
-          <!-- Coluna esquerda: lista de itens rastreados -->
+          <!-- Left column: tracked items list -->
           <div>
             <div class="media-list">
               {% if items is defined and items %}
@@ -112,10 +112,10 @@
                   </div>
 
                   <div class="media-rating-row">
-                    <span class="text-muted">Nota:</span>
+                    <span class="text-muted">Rating:</span>
                     {% if item.rating is not none %}
                     <span class="avo-row">
-                      {# converte nota 0–10 em avocados #}
+                      {# convert rating 0–10 into avocados #}
                       {% set full = (item.rating or 0) // 2 %}
                       {% for _ in range(full) %}
                       <span class="avo">🥑</span>
@@ -123,7 +123,7 @@
                       <span style="margin-left: 0.25rem">{{ item.rating }}/10</span>
                     </span>
                     {% else %}
-                    <span class="text-muted">sem avaliação</span>
+                    <span class="text-muted">no rating</span>
                     {% endif %}
                   </div>
 
@@ -138,10 +138,10 @@
 
                   <div class="form-actions" style="margin-top: 0.6rem">
                     <a href="{{ url_for('tracker.edit_media', media_id=item.id) }}" class="btn-secondary" style="text-decoration: none">
-                      Editar
+                      Edit
                     </a>
                     <a href="{{ url_for('tracker.delete_media', media_id=item.id) }}" class="btn-danger" style="text-decoration: none">
-                      Excluir
+                      Delete
                     </a>
                   </div>
                 </div>
@@ -149,32 +149,32 @@
               {% endfor %}
               {% else %}
               <p class="text-muted" style="font-size: 0.9rem">
-                Você ainda não está rastreando nenhuma mídia.  
-                Use o botão <strong>“+ Adicionar item”</strong> para começar.
+                You are not tracking any media yet.  
+                Use the <strong>“+ Add item”</strong> button to get started.
               </p>
               {% endif %}
             </div>
           </div>
 
-          <!-- Coluna direita: resumo simples -->
+          <!-- Right column: simple summary -->
           <aside class="media-sort-card">
-            <h2 class="section-title">Resumo</h2>
+            <h2 class="section-title">Summary</h2>
 
             <ul>
               <li>
-                <strong>Total rastreado:</strong>
+                <strong>Total tracked:</strong>
                 {{ stats.total if stats is defined and stats.total is not none else (items|length if items is defined else 0) }}
               </li>
               <li>
-                <strong>Consumindo:</strong>
+                <strong>Consuming:</strong>
                 {{ stats.consuming if stats is defined and stats.consuming is not none else '-' }}
               </li>
               <li>
-                <strong>Concluídos:</strong>
+                <strong>Completed:</strong>
                 {{ stats.completed if stats is defined and stats.completed is not none else '-' }}
               </li>
               <li>
-                <strong>Planejados:</strong>
+                <strong>Planned:</strong>
                 {{ stats.planned if stats is defined and stats.planned is not none else '-' }}
               </li>
             </ul>
