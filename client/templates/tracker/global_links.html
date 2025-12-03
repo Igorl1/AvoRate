@@ -10,7 +10,7 @@
         href="{{ url_for('tracker.explore') }}"
         class="nav-link {% if request.endpoint == 'tracker.explore' %}active{% endif %}"
       >
-        Explorar
+        Explore
       </a>
 
       <a
@@ -42,11 +42,10 @@
     </button>
 
     {% if current_user.is_authenticated %}
-    <!-- AGORA É UM LINK, NÃO UM FORM -->
     <a
       href="{{ url_for('auth.logout') }}"
       class="icon-button"
-      title="Sair"
+      title="logout"
       style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;"
     >
       <span class="avatar-circle">
