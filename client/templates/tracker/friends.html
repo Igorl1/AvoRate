@@ -2,17 +2,17 @@
 <html lang="pt-BR">
   <head>
     {% include 'tracker/header.html' %}
-    <title>AvoRate - Amigos</title>
+    <title>AvoRate - Friends</title>
   </head>
   <body>
     {% include 'tracker/global_links.html' %}
 
     <main class="page-container">
       <section class="card">
-        <h1 class="page-title">Amigos</h1>
+        <h1 class="page-title">Friends</h1>
 
         <div class="shelf-section">
-          <h2 class="section-title">Convites recebidos</h2>
+          <h2 class="section-title">Received Invites</h2>
 
           <div class="friends-list">
             {% if friend_invites %}
@@ -23,19 +23,19 @@
                   <div>
                     <div class="friend-name">{{ invite.name }}</div>
                     <div class="friend-meta">
-                      {{ invite.mutual_count }} amigos em comum
+                      {{ invite.mutual_count }} mutual friends
                     </div>
                   </div>
                 </div>
 
                 <button class="btn-secondary" type="button">
-                  Aceitar
+                  Accept
                 </button>
               </div>
               {% endfor %}
             {% else %}
               <p class="text-muted" style="font-size: 0.9rem">
-                Nenhum convite recebido no momento.
+                No invites received at the moment.
               </p>
             {% endif %}
           </div>
@@ -50,9 +50,9 @@
               margin-bottom: 0.75rem;
             "
           >
-            <h2 class="section-title" style="margin: 0">Amigos</h2>
+            <h2 class="section-title" style="margin: 0">Friends</h2>
             <button class="btn-secondary" type="button">
-              Adicionar amigos
+              Add Friends
             </button>
           </div>
 
@@ -73,7 +73,7 @@
                   <div>
                     <div class="friend-name">{{ friend.name }}</div>
                     <div class="friend-meta">
-                      {{ friend.stats or 'Nenhuma informação adicional' }}
+                      {{ friend.stats or 'No additional information' }}
                     </div>
                   </div>
                 </div>
@@ -81,7 +81,7 @@
               {% endfor %}
             {% else %}
               <p class="text-muted" style="font-size: 0.9rem">
-                Você ainda não adicionou amigos.
+                You haven't added any friends yet.
               </p>
             {% endif %}
           </div>

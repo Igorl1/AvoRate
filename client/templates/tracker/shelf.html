@@ -2,17 +2,17 @@
 <html lang="pt-BR">
   <head>
     {% include 'tracker/header.html' %}
-    <title>AvoRate - Estante</title>
+    <title>AvoRate - Shelf</title>
   </head>
   <body>
     {% include 'tracker/global_links.html' %}
 
     <main class="page-container">
       <section class="card">
-        <h1 class="page-title">Estante</h1>
+        <h1 class="page-title">Shelf</h1>
 
         <div class="shelf-section">
-          <h2 class="section-title">Avaliados</h2>
+          <h2 class="section-title">Rated</h2>
           <div class="shelf-grid">
             {% if rated_media %}
               {% for media in rated_media %}
@@ -30,7 +30,7 @@
         </div>
 
         <div class="shelf-section">
-          <h2 class="section-title">Favoritados</h2>
+          <h2 class="section-title">Favorited</h2>
           <div class="shelf-grid">
             {% if favorite_media %}
               {% for media in favorite_media %}
